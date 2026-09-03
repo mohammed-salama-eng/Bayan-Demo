@@ -34,6 +34,28 @@ class AdminController extends Controller
         return redirect()->route('admin.users.index')->with('success', __('User roles updated successfully.'));
     }
 
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'role' => ['nullable', 'string', 'exists:roles,name'],
+        ]);
+
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => $validated['password'],
+        ]);
+
+        if (!empty($validated['role'])) {
+            $user->assignRole($validated['role']);
+        }
+
+        return redirect()->route('admin.users.index')->with('success', __('User created successfully.'));
+    }
+
     public function destroy(User $user)
     {
         if ($user->id === auth()->id()) {
