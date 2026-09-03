@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="{{ auth()->user()->theme ?? session('theme', 'light') === 'dark' ? 'dark' : '' }}"
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="{{ (auth()->user()->theme ?? session('theme', 'light')) === 'dark' ? 'dark' : '' }}"
     x-data
     x-init="$refs.themeToggler?.classList.add('styled')">
     <head>
